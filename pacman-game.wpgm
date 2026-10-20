@@ -10,6 +10,10 @@ import fantasmas.*
 
 program juego {
 
+
+
+
+
   game.title("PACMAN INVADERS")
   
   game.boardGround(menu.fondoDeJuego())

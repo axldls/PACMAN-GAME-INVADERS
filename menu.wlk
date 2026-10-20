@@ -9,6 +9,9 @@ import fantasmas.*
 
 object menu {
 
+
+        
+
         var property juegoIniciado = false
         var property fondoDeJuego = "menuInicio.png"
 
@@ -19,6 +22,11 @@ object menu {
 
         method iniciar(){
         
+        game.onTick(100, rojo, rojo.moverse())
+        game.onTick(100, rosa, rosa.moverse())
+        game.onTick(100, naranja, naranja.moverse())
+        game.onTick(100, azul, azul.moverse())
+
         fondoDeJuego= "fondo.jpg"
         juegoIniciado = true
         game.addVisual(fondo)
