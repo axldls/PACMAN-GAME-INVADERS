@@ -12,5 +12,10 @@ class Bomba {
 
     method esBomba() { return true }
 
+    method chocoConPacman() {}
+
+    method chocoConFantasma() {
+        game.removeVisual(self)
+    }
     
 }

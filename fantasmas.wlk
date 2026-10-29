@@ -72,7 +72,9 @@ class Fantasma {
     }
 
     method verificarBomba() {
-        if (game.getObjectsIn(position).any({ objeto => objeto.esBomba() })) {
+        const bombas = game.getObjectsIn(position).filter({ objeto => objeto.esBomba() })
+        if (not bombas.isEmpty()) {
+            bombas.forEach({ bomba => bomba.chocoConFantasma() })
             self.morir()
         }
     }
