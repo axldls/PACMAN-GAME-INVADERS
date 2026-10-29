@@ -17,9 +17,9 @@ object menu {
         var property juegoIniciado = false
         var property fondoDeJuego = "menuInicio.png"
 
-        const property rojo = new FantasmaRojo (position = game.at(10, 12), imagen = "rojo.png", pacmanFuerte = false, fantasmaVivo = true)
+        const property rojo = new FantasmaRojo (position = game.at(8, 12), imagen = "rojo.png", pacmanFuerte = false, fantasmaVivo = true)
         const property rosa = new FantasmaRosa (position = game.at(6, 6), imagen = "rosa.png", pacmanFuerte = false, fantasmaVivo = true)
-        const property naranja = new FantasmaNaranja (position = game.at(2, 2), imagen = "naranja.png", pacmanFuerte = false, fantasmaVivo = true)
+        const property naranja = new FantasmaNaranja (position = game.at(6, 2), imagen = "naranja.png", pacmanFuerte = false, fantasmaVivo = true)
         const property azul = new FantasmaCeleste (position = game.at(8, 8), imagen = "azul.png", pacmanFuerte = false, fantasmaVivo = true, fantasmaRojo = rojo)
 
         method iniciar(){
@@ -28,15 +28,15 @@ object menu {
 
         // BOLITAS
 
-        const bolita1 = new Bolitas(position = game.at(8, 8))
+        const bolita1 = new Bolitas(position = game.at(3, 8))
         const bolita2 = new Bolitas(position = game.at(6, 2))
         const bolita3 = new Bolitas(position = game.at(2, 2))
-        const bolita4 = new Bolitas(position = game.at(6, 6))
-        const bolita5 = new Bolitas(position = game.at(10, 6))
+        const bolita4 = new Bolitas(position = game.at(7, 6))
+        const bolita5 = new Bolitas(position = game.at(8, 6))
         const bolita6 = new Bolitas(position = game.at(4, 8))
         const bolita7 = new Bolitas(position = game.at(8, 4))
-        const bolita8 = new Bolitas(position = game.at(14, 10))
-        const bolita9 = new Bolitas(position = game.at(10, 6))
+        const bolita8 = new Bolitas(position = game.at(9, 10))
+        const bolita9 = new Bolitas(position = game.at(13, 6))
         const bolita10 = new Bolitas(position = game.at(12, 12))
 
 
@@ -64,7 +64,7 @@ object menu {
         game.schedule(5000,{ game.addVisual(new BombaRandom (position = game.at(10, 10)))})
 
 // SPAWNER DISPARADORES
-   //    spawner.spawnearCant_Invasores(2)
+        spawner.spawnearCant_Invasores(2)
 
 // COLISIONES 
         game.onCollideDo(pacman, {elemento => elemento.chocoConPacman()})
@@ -72,7 +72,7 @@ object menu {
         game.addVisual(rosa)
         game.addVisual(naranja)
         game.addVisual(azul)
-        game.addVisualCharacter(pacman)
+        game.addVisual(pacman)
         game.addVisual(bolita1)
         game.addVisual(bolita2)
         game.addVisual(bolita3)

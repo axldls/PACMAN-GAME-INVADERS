@@ -16,4 +16,8 @@ class Bolitas{
 
     method esBomba() { return false }
 
+    method matar(){
+      
+    }
+
 } 

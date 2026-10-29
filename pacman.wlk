@@ -9,7 +9,7 @@ object pacman {
     
     var puntos = 0
     var bombas = 0
-    var  property position = game.origin()
+    var  property position = game.at(1, 1)
     var direccionActual = derecha
 
     method ganar(){if(puntos == 10000){
@@ -50,12 +50,14 @@ object pacman {
     }
 
     method mover(direccion) {
-		const nuevaPosition = direccion.siguiente(position) 
-		if (not self.hayMurosAdelante(nuevaPosition)) {
-        position = nuevaPosition
-        direccionActual = direccion
+        if (direccion.esValidaDesde(position)) {
+            const nuevaPosition = direccion.siguiente(position)
+            if (not self.hayMurosAdelante(nuevaPosition)) {
+                position = nuevaPosition
+                direccionActual = direccion
+            }
+        }
     }
-	}
 
     method hayMurosAdelante(posicion) {
       return game.getObjectsIn(posicion).any({ objeto => objeto.esSolido() })

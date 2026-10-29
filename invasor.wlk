@@ -33,6 +33,9 @@ class Invasor {
         game.onTick(100, "movimiento_proyectil_" + proyectil.identity().toString(), {proyectil.avanzar()})
     }
     
+    method matar() {
+      
+    }
 }
 
 class Proyectil {
@@ -50,10 +53,6 @@ class Proyectil {
         game.onCollideDo(self, { unPersonaje => 
             unPersonaje.matar()
                 
-                
-                
-                
-                self.destruir()
                 
                 
                 
