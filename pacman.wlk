@@ -82,7 +82,7 @@ object pacman {
 		}
     }
         method matar(){
-        muerte.sonidoMuerte()
+        sonidos.sonidoMuerte()
         game.removeVisual(self)
         bombas = 0
         game.addVisual(menu)

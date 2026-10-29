@@ -7,6 +7,7 @@ import pacman-game.*
 import fondo.*
 import fantasmas.*
 import mapa.*
+import sonidos.*
 
 
 object menu {
@@ -23,6 +24,8 @@ object menu {
         const property azul = new FantasmaCeleste (position = game.at(8, 8), imagen = "azul.png", pacmanFuerte = false, fantasmaVivo = true, fantasmaRojo = rojo)
 
         method iniciar(){
+        if (not game.hasVisual(pacman)) {
+        juegoIniciado = true
         const fantasmas = [rojo, rosa, naranja, azul]
         fantasmas.forEach({ fantasma => fantasma.otrosFantasmas(fantasmas) })
 
@@ -46,14 +49,10 @@ object menu {
         game.onTick(500, azul, { azul.moverse() })
 
         fondoDeJuego= "fondo.jpg"
-        juegoIniciado = true
         game.addVisual(fondo)
         generadorMapa.crear()
 
-//MUSICA DE FONDO
-        const musicaFondo = game.sound("musica_fondo.mp3")
-        musicaFondo.shouldLoop(true)
-        game.schedule(300, { musicaFondo.play()} )
+
 
 
 
@@ -64,10 +63,9 @@ object menu {
         game.schedule(5000,{ game.addVisual(new BombaRandom (position = game.at(10, 10)))})
 
 // SPAWNER DISPARADORES
-        //spawner.spawnearCant_Invasores(2)
+        spawner.spawnearCant_Invasores(2)
 
 // COLISIONES 
-        game.onCollideDo(pacman, {elemento => elemento.chocoConPacman()})
         game.addVisual(rojo)
         game.addVisual(rosa)
         game.addVisual(naranja)
@@ -83,5 +81,6 @@ object menu {
         game.addVisual(bolita8)
         game.addVisual(bolita9)
         game.addVisual(bolita10)
+        }
 }
 }

@@ -7,6 +7,7 @@ import bombasRandom.*
 import spawners.*
 import menu.*
 import fantasmas.*
+import sonidos.*
 
 program juego {
 
@@ -21,7 +22,8 @@ program juego {
 	game.width(20)
 
 //CONTROLES MENU
-  keyboard.num1().onPressDo({menu.iniciar()})
+  keyboard.num1().onPressDo({menu.iniciar()
+                            sonidos.sonidoInicio()})
 
   //MOVIMIENTO PACMAN
 
