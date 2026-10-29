@@ -63,7 +63,7 @@ object menu {
         game.schedule(5000,{ game.addVisual(new BombaRandom (position = game.at(10, 10)))})
 
 // SPAWNER DISPARADORES
-        spawner.spawnearCant_Invasores(2)
+        //spawner.spawnearCant_Invasores(2)
 
 // COLISIONES 
         game.addVisual(rojo)
