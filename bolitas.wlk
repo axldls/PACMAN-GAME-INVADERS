@@ -14,10 +14,6 @@ class Bolitas{
 
     method esSolido() { return false}
 
-    method esBomba() { return false }
-
-    method matar(){
-      
-    }
+    method matar(){}// No hace nada, las bolitas no puede ser destruidas
 
 } 

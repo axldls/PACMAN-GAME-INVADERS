@@ -1,9 +1,9 @@
+import menuGanador.menuGanador
 import wollok.game.*
 import direcciones.*
 import trampas.*
 import sonidos.*
 import menuMuerte.*
-import menuGanador.*
 
 object pacman {
     

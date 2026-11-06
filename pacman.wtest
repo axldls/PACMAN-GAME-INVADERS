@@ -1,6 +1,14 @@
-import pacman.*
+import muro.*
+import trampas.*
 import wollok.game.*
+import pacman.*
 import direcciones.*
+import bombasRandom.*
+import spawners.*
+import menu.*
+import fantasmas.*
+import bolitas.*
+import invasor.*
 
 describe "Tests de pacman" {
 
@@ -64,4 +72,100 @@ describe "Tests de pacman" {
 		assert.equals(game.at(9,5), pacman.position())
 	}
 
+}
+describe "Test de Pacman y el Muro" {
+
+	method initialize() {
+		game.clear()
+		game.height(10) //configurar el tamaño es importante 
+		game.width(10)
+		game.addVisual(new Muro (position = game.at(5, 4)))
+		game.addVisual(new Muro (position = game.at(5, 6)))
+		game.addVisual(new Muro (position = game.at(4, 5)))
+		game.addVisual(new Muro (position = game.at(6, 5)))
+		pacman.position(game.at(5,5))
+	}
+	test "pacman no transpasa el muro por el Sur" {
+		pacman.mover(arriba)
+		assert.equals(game.at(5,5), pacman.position())
+  }
+	test "pacman no transpasa el muro por el Norte" {
+		pacman.mover(abajo)
+		assert.equals(game.at(5,5), pacman.position())
+  }
+	test "pacman no transpasa el muro por el Este" {
+		pacman.mover(izquierda)
+		assert.equals(game.at(5,5), pacman.position())
+  }
+	test "pacman no transpasa el muro por el Oeste" {
+		pacman.mover(derecha)
+		assert.equals(game.at(5,5), pacman.position())
+  }
+}
+describe "Tests de pacman y sus bombas" {
+	method initialize() {
+		game.clear()
+		game.height(10) //configurar el tamaño es importante 
+		game.width(10)
+		game.addVisual( new BombaRandom (position = game.at(6, 5)))
+		game.addVisual( new BombaRandom (position = game.at(5, 5)))
+		pacman.position(game.at(5,5))
+	}
+	test "pacman puede agarrar una bomba " {
+		pacman.mover(derecha)
+		assert.equals(pacman.bombas, 1)
+  }
+	test "pacman puede colocar una bomba en un espacio vacío" {
+		pacman.mover(derecha)
+		pacman.mover(izquierda)
+		pacman.ponerBomba()
+		assert.equals(game.at(5,5), Bomba.position())
+  }
+  	test "pacman no puede colocar una bomba en un espacio ocupado" {
+		pacman.mover(derecha)
+		pacman.mover(izquierda)
+		pacman.ponerBomba()
+		assert.throwsException({ pacman.ponerBomba() })
+  }
+}
+describe "Tests del fantasma rojo" {
+	method initialize() {
+		game.clear()
+		game.height(10) //configurar el tamaño es importante 
+		game.width(10)
+		const rojo = new FantasmaRojo (position = game.at(8, 12), imagen = "rojo.png", pacmanFuerte = false, fantasmaVivo = true)
+		pacman.position(game.at(5,5))
+	}
+	test "pacman muere al chocar con un fantasma" {
+		pacman.mover(arriba)
+		assert.that(!game.hasVisual(pacman))
+  }
+}
+describe "Tests de pacman y las bolitas" {
+	method initialize() {
+		game.clear()
+		game.height(10) //configurar el tamaño es importante 
+		game.width(10)
+		game.addVisual(new Bolitas(position = game.at(5, 4)))
+		pacman.position(game.at(5,5))
+	}
+	test "pacman come una bolita" {
+		pacman.mover(abajo)
+		assert.equals(game.at(5, 4), pacman.position())
+		assert.that(!game.hasVisual(new Bolitas(position = game.at(5, 4))))
+  }
+}
+describe "Tests de pacman y los invasores" {
+	method initialize() {
+		game.clear()
+		game.height(10) //configurar el tamaño es importante 
+		game.width(10)
+		pacman.position(game.at(5,5))
+		new Invasor(position = game.at(6, 5), direccion = derecha)
+	}
+	test "pacman dispara un proyectil" {
+		pacman.mover(derecha)
+		Invasor.fire()
+		assert.that(game.hasVisual(new Proyectil(position = game.at(6,5), direccion = derecha)))
+  }
 }

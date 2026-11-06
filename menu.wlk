@@ -1,3 +1,4 @@
+import muro.*
 import wollok.game.*
 import pacman.*
 import bombasRandom.*
@@ -54,7 +55,10 @@ object menu {
 
 
 
-
+  (0..14).forEach({ x => game.addVisual(new Muro(position = game.at(x, 14))) })
+  (0..14).forEach({ x => game.addVisual(new Muro(position = game.at(x, 0))) })
+  (0..14).forEach({ y => game.addVisual(new Muro(position = game.at(0, y))) })
+  (0..14).forEach({ y => game.addVisual(new Muro(position = game.at(14, y))) })
 
 
 // BOMBAS AZULES
