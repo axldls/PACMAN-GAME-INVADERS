@@ -10,7 +10,7 @@ object pacman {
     const tickDebilidad = game.tick(6000, { self.hacerDebil() }, false)
     const puntosNecesariosParaGanar = 80000
     var puntos = 0
-    var bombas = 0
+    var property bombas = 0
     var  property position = game.at(1, 1)
     var direccionActual = derecha
     var property pacmanFuerte = false
@@ -31,9 +31,6 @@ object pacman {
         } else {
             tickDebilidad.start()
         }
-    }
-    method text () {
-        return  "=" + bombas
     }
     method image(){
         return "pacman-" + direccionActual.nombreDireccion() + ".png"

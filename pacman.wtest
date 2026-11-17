@@ -50,7 +50,7 @@ describe "Tests de pacman" {
 		pacman.reiniciar()
 
 		assert.equals(game.at(1,1), pacman.position())
-		assert.equals("=0", pacman.text())
+		assert.equals(0, pacman.bombas())
 		assert.equals(false, pacman.pacmanFuerte())
 		assert.equals(false, pacman.estaMuerto())
 	}
@@ -61,7 +61,7 @@ describe "Tests de pacman" {
 
 		pacman.ponerBomba()
 
-		assert.equals("=0", pacman.text())
+		assert.equals(0, pacman.bombas())
 		assert.equals(true, game.getObjectsIn(game.at(5,5)).any({ objeto => objeto.esBomba() }))
 	}
 
