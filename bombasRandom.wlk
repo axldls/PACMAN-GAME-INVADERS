@@ -10,7 +10,7 @@ class BombaRandom{
         game.removeVisual(self)
         pacman.agarrarBomba()
     }
-
+    method ChocoCon(){}
     method esSolido() { return false}
 
     method esBomba() { return false }

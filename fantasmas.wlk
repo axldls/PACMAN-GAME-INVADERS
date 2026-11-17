@@ -37,6 +37,8 @@ class Fantasma {
     method moverse()
 
     method moverseHacia(objetivo) {
+        self.chocarConBombaEn(position)
+        if (fantasmaVivo) {
         const diferenciaX = objetivo.x() - position.x()
         const diferenciaY = objetivo.y() - position.y()
         const distanciaX = if (diferenciaX >= 0) diferenciaX else -diferenciaX
@@ -52,6 +54,13 @@ class Fantasma {
             }
             self.moverEnLaPrimeraDireccionPosible(direccionesPrioritarias)
         }
+        }
+    }
+
+    method chocarConBombaEn(posicion) {
+        game.getObjectsIn(posicion)
+            .filter({ elemento => elemento.esBomba() })
+            .forEach({ bomba => if (fantasmaVivo) bomba.chocoCon(self) })
     }
 
     method moverEnLaPrimeraDireccionPosible(direcciones) {
@@ -76,8 +85,15 @@ class Fantasma {
         }
 
         const siguiente = direccion.siguiente(position)
+        const objetosEnSiguiente = game.getObjectsIn(siguiente)
+        const bombas = objetosEnSiguiente.filter({ objeto => objeto.esBomba() })
+        if (not bombas.isEmpty()) {
+            bombas.forEach({ bomba => if (fantasmaVivo) bomba.chocoCon(self) })
+            return false
+        }
+
         return not self.hayFantasmaEn(siguiente) and
-            not game.getObjectsIn(siguiente).any({ objeto => objeto.esSolido() })
+            not objetosEnSiguiente.any({ objeto => objeto.esSolido() })
     }
 }
 

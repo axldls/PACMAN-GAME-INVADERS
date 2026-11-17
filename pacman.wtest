@@ -2,8 +2,9 @@ import pacman.*
 import wollok.game.*
 import direcciones.*
 import fantasmas.*
-import menu.*
+import nivel.*
 import trampas.*
+import menuGanador.*
 
 describe "Tests de pacman" {
 
@@ -69,11 +70,25 @@ describe "Tests de pacman" {
 		game.width(20)
 		pacman.estaMuerto(true)
 
-		menu.reiniciar()
+		nivel.reiniciar()
 
 		assert.equals(false, pacman.estaMuerto())
 		assert.equals(true, game.hasVisual(pacman))
-		assert.equals(true, game.hasVisual(menu.rojo()))
+		assert.equals(true, game.hasVisual(nivel.rojo()))
+	}
+
+	test "los fantasmas aparecen en casillas transitables del mapa" {
+		game.height(20)
+		game.width(20)
+		nivel.reiniciar()
+		assert.equals(game.at(10,18), nivel.rojo().position())
+		assert.equals(game.at(18,12), nivel.rosa().position())
+		assert.equals(game.at(1,10), nivel.naranja().position())
+		assert.equals(game.at(9,10), nivel.azul().position())
+		assert.equals(false, game.getObjectsIn(nivel.rojo().position()).any({ objeto => objeto.esSolido() }))
+		assert.equals(false, game.getObjectsIn(nivel.rosa().position()).any({ objeto => objeto.esSolido() }))
+		assert.equals(false, game.getObjectsIn(nivel.naranja().position()).any({ objeto => objeto.esSolido() }))
+		assert.equals(false, game.getObjectsIn(nivel.azul().position()).any({ objeto => objeto.esSolido() }))
 	}
 
 	test "pacman vuelve a morir por colision despues de reiniciar" {
@@ -81,8 +96,8 @@ describe "Tests de pacman" {
 		game.width(20)
 		pacman.estaMuerto(true)
 
-		menu.reiniciar()
-		menu.rojo().position(pacman.position())
+		nivel.reiniciar()
+		nivel.rojo().position(pacman.position())
 		game.flushEvents(game.currentTime())
 
 		assert.equals(true, pacman.estaMuerto())
@@ -147,6 +162,32 @@ describe "Tests de pacman" {
 		pacman.position(game.at(9,5))
 		assert.throwsException({pacman.mover(derecha)})
 		assert.equals(game.at(9,5), pacman.position())
+	}
+
+	test "pacman gana al recoger las 80 bolitas del mapa" {
+		pacman.reiniciar()
+		(1..79).forEach({ _ => pacman.sumarPunto() })
+
+		assert.equals(false, game.hasVisual(menuGanador))
+		pacman.sumarPunto()
+		assert.equals(true, game.hasVisual(menuGanador))
+	}
+
+	test "volver al menu de inicio despues de ganar" {
+		game.height(20)
+		game.width(20)
+		nivel.reiniciar()
+		(1..80).forEach({ _ => pacman.sumarPunto() })
+
+		nivel.volverAlMenuInicio()
+
+		assert.equals(false, game.hasVisual(menuGanador))
+		assert.equals(false, game.hasVisual(pacman))
+		assert.equals(false, nivel.juegoIniciado())
+		assert.equals("menuInicio.png", nivel.fondoDeJuego())
+
+		nivel.iniciar()
+		assert.equals(false, game.hasVisual(menuGanador))
 	}
 
 }

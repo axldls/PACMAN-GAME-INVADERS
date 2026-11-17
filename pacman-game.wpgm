@@ -5,7 +5,7 @@ import pacman.*
 import direcciones.*
 import bombasRandom.*
 import spawners.*
-import menu.*
+import nivel.*
 import fantasmas.*
 import sonidos.*
 
@@ -17,13 +17,11 @@ program juego {
 
   game.title("PACMAN INVADERS")
   
-  game.boardGround(menu.fondoDeJuego())
+  game.boardGround(nivel.fondoDeJuego())
   game.height(20)
 	game.width(20)
 
-//CONTROLES MENU
-  keyboard.num1().onPressDo({menu.iniciar()sonidos.sonidoInicio()})
-  menu.configurarControles()
+  nivel.configurarControles()
 
 game.start()
 }  

@@ -7,25 +7,30 @@ import menuGanador.*
 
 object pacman {
 
-    
+    const tickDebilidad = game.tick(6000, { self.hacerDebil() }, false)
+    const puntosNecesariosParaGanar = 80000
     var puntos = 0
     var bombas = 0
     var  property position = game.at(1, 1)
     var direccionActual = derecha
     var property pacmanFuerte = false
     var property estaMuerto = false
-    method ganar(){if(puntos == 222000){
+    method ganar(){if(puntos == puntosNecesariosParaGanar){
             game.addVisual(menuGanador)
             game.removeVisual(self)
         }
     }
     method hacerDebil(){
         pacmanFuerte = false
+        tickDebilidad.stop()
     }
     method hacerFuerte(){
-        const tick = game.tick(6000, { self.hacerDebil() }, false)
         pacmanFuerte = true
-        tick.start()
+        if (tickDebilidad.isRunning()) {
+            tickDebilidad.reset()
+        } else {
+            tickDebilidad.start()
+        }
     }
     method text () {
         return  "=" + bombas

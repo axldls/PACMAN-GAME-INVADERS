@@ -11,7 +11,7 @@ class Bolita{
       game.removeVisual(self)
       pacman.sumarPunto()
     }
-
+    method chocoCon(){}
     method esSolido() { return false}
 
     method esBomba() { return false }

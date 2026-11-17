@@ -31,4 +31,15 @@ describe "Tests de bolitas" {
 		assert.equals(false, pacman.pacmanFuerte())
 		assert.equals(false, game.hasVisual(bolita))
 	}
+
+	test "recoger varias bolitas poderosas reutiliza el temporizador" {
+		pacman.hacerFuerte()
+		pacman.hacerFuerte()
+
+		assert.equals(true, pacman.pacmanFuerte())
+
+		game.flushEvents(game.currentTime() + 6001)
+
+		assert.equals(false, pacman.pacmanFuerte())
+	}
 }
