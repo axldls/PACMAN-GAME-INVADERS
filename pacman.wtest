@@ -112,10 +112,12 @@ describe "Tests de pacman" {
 			imagen = "rojo.png",
 			fantasmaVivo = true
 		)
+		nivel.configurarControles()
 		game.addVisual(pacman)
 		game.addVisual(fantasma)
 
 		fantasma.moverse()
+		game.flushEvents(game.currentTime())
 
 		assert.equals(true, pacman.estaMuerto())
 		assert.equals(false, game.hasVisual(pacman))
@@ -139,28 +141,28 @@ describe "Tests de pacman" {
 
 	test "pacman no sale de la pantalla por arriba" {
 		pacman.position(game.at(5,9))
-		assert.throwsException({pacman.mover(arriba)})
+		pacman.mover(arriba)
 		assert.equals(game.at(5,9), pacman.position())
 	}
 
 	test "pacman no sale de la pantalla por abajo" {
 
 		pacman.position(game.at(5,0))
-		assert.throwsException({pacman.mover(abajo)})
+		pacman.mover(abajo)
 		assert.equals(game.at(5,0), pacman.position())
 	}
 
 	test "pacman no sale de la pantalla por izquierda" {
 
 		pacman.position(game.at(0,5))
-		assert.throwsException({pacman.mover(izquierda)})
+		pacman.mover(izquierda)
 		assert.equals(game.at(0,5), pacman.position())
 	}
 
 	test "pacman no sale de la pantalla por derecha" {
 
 		pacman.position(game.at(9,5))
-		assert.throwsException({pacman.mover(derecha)})
+		pacman.mover(derecha)
 		assert.equals(game.at(9,5), pacman.position())
 	}
 
