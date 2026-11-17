@@ -20,10 +20,26 @@ object menu {
         var property fondoDeJuego = "menuInicio.png"
 
         const property rojo = new FantasmaRojo (position = game.at(8, 12), imagen = "rojo.png",  fantasmaVivo = true)
-        const property rosa = new FantasmaRosa (position = game.at(6, 6), imagen = "rosa.png", fantasmaVivo = true)
-        const property naranja = new FantasmaNaranja (position = game.at(6, 2), imagen = "naranja.png", fantasmaVivo = true)
+        const property rosa = new FantasmaRosa (position = game.at(11, 6), imagen = "rosa.png", fantasmaVivo = true)
+        const property naranja = new FantasmaNaranja (position = game.at(10, 2), imagen = "naranja.png", fantasmaVivo = true)
         const property azul = new FantasmaCeleste (position = game.at(8, 8), imagen = "azul.png",  fantasmaVivo = true, fantasmaRojo = rojo)
 
+        method configurarControles() {
+                keyboard.r().onPressDo({ if (pacman.estaMuerto()) self.reiniciar() })
+                keyboard.left().onPressDo({ pacman.mover(izquierda) })
+                keyboard.right().onPressDo({ pacman.mover(derecha) })
+                keyboard.up().onPressDo({ pacman.mover(arriba) })
+                keyboard.down().onPressDo({ pacman.mover(abajo) })
+                keyboard.b().onPressDo({ pacman.ponerBomba() })
+                game.onCollideDo(pacman, { elemento => elemento.chocoConPacman() })
+                [rojo, rosa, naranja, azul].forEach({ fantasma =>
+                        game.onCollideDo(fantasma, { elemento =>
+                                if (elemento.esBomba()) {
+                                        elemento.chocoCon(fantasma)
+                                }
+                        })
+                })
+        }
 
 
 
@@ -53,9 +69,9 @@ object menu {
 
 
 // BOMBAS AZULES
-        game.schedule(5000, { game.addVisual(new BombaRandom (position = game.at(2, 5)))})
-        game.schedule(5000,{ game.addVisual(new BombaRandom (position = game.at(12, 10)))})
-        game.schedule(5000,{ game.addVisual(new BombaRandom (position = game.at(8, 4)))})
+        game.schedule(2000, { game.addVisual(new BombaRandom (position = game.at(2, 5)))})
+        game.schedule(2000,{ game.addVisual(new BombaRandom (position = game.at(12, 10)))})
+        game.schedule(2000,{ game.addVisual(new BombaRandom (position = game.at(8, 4)))})
 
 // SPAWNER DISPARADORES
         spawner.spawnearCant_Invasores(2)
@@ -81,5 +97,6 @@ object menu {
                 fantasma.fantasmaVivo(true)
         })
         self.iniciar()
+        self.configurarControles()
         }
 }

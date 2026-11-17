@@ -1,0 +1,45 @@
+import fantasmas.*
+import pacman.*
+import wollok.game.*
+
+describe "Tests de fantasmas" {
+
+	method initialize() {
+		game.clear()
+		pacman.pacmanFuerte(false)
+		pacman.estaMuerto(false)
+		pacman.position(game.at(5,5))
+	}
+
+	test "el fantasma se asusta y muere al chocar con pacman fuerte" {
+		const fantasma = new FantasmaRojo(
+			position = game.at(5,5),
+			imagen = "rojo.png",
+			fantasmaVivo = true
+		)
+		game.addVisual(pacman)
+		game.addVisual(fantasma)
+		pacman.pacmanFuerte(true)
+
+		assert.equals("fantasmaAsustado.png", fantasma.image())
+		fantasma.chocoConPacman()
+
+		assert.equals(false, fantasma.fantasmaVivo())
+		assert.equals(false, game.hasVisual(fantasma))
+	}
+
+	test "el fantasma mata a pacman cuando no esta fuerte" {
+		const fantasma = new FantasmaRojo(
+			position = game.at(5,5),
+			imagen = "rojo.png",
+			fantasmaVivo = true
+		)
+		game.addVisual(pacman)
+		game.addVisual(fantasma)
+
+		fantasma.chocoConPacman()
+
+		assert.equals(true, pacman.estaMuerto())
+		assert.equals(false, game.hasVisual(pacman))
+	}
+}

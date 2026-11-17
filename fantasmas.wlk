@@ -23,7 +23,7 @@ class Fantasma {
     }
 
     method image() {
-        return imagen
+        return if (pacman.pacmanFuerte()) "fantasmaAsustado.png" else imagen
     }
 
     method esSolido() {
