@@ -24,18 +24,8 @@ object menu {
         const property naranja = new FantasmaNaranja (position = game.at(6, 2), imagen = "naranja.png", fantasmaVivo = true)
         const property azul = new FantasmaCeleste (position = game.at(8, 8), imagen = "azul.png",  fantasmaVivo = true, fantasmaRojo = rojo)
 
-        method configurarControles() {
-                keyboard.r().onPressDo({
-                        if (pacman.estaMuerto()) {
-                                self.reiniciar()
-                        }
-                })
-                keyboard.left().onPressDo({ pacman.mover(izquierda) })
-                keyboard.right().onPressDo({ pacman.mover(derecha) })
-                keyboard.up().onPressDo({ pacman.mover(arriba) })
-                keyboard.down().onPressDo({ pacman.mover(abajo) })
-                game.onCollideDo(pacman, { elemento => elemento.chocoConPacman() })
-        }
+
+
 
         method iniciar(){
         
@@ -91,6 +81,5 @@ object menu {
                 fantasma.fantasmaVivo(true)
         })
         self.iniciar()
-        self.configurarControles()
         }
 }

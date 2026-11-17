@@ -24,7 +24,13 @@ program juego {
 //CONTROLES MENU
   keyboard.num1().onPressDo({menu.iniciar()
                             sonidos.sonidoInicio()})
-menu.configurarControles()
+  
+                keyboard.r().onPressDo({if (pacman.estaMuerto()) {menu.reiniciar()}})
+                keyboard.left().onPressDo({ pacman.mover(izquierda) })
+                keyboard.right().onPressDo({ pacman.mover(derecha) })
+                keyboard.up().onPressDo({ pacman.mover(arriba) })
+                keyboard.down().onPressDo({ pacman.mover(abajo) })
+                game.onCollideDo(pacman, { elemento => elemento.chocoConPacman() })
 
 // game.onCollideDo(menu.rojo, {elemento => elemento.chocoCon(menu.rojo)})
 
