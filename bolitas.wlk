@@ -1,6 +1,6 @@
 import wollok.game.*
 import pacman.*
-class Bolitas{
+class Bolita{
     var property position 
 
     method image() {
@@ -19,5 +19,16 @@ class Bolitas{
     method matar(){
       
     }
-
 } 
+
+class BolitaPoderosa inherits Bolita {
+
+  override method chocoConPacman(){
+    super()
+    pacman.hacerFuerte()
+  }
+
+  override method image(){
+    return "bolitaPoderosa.png"
+  }
+}

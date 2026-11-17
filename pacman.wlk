@@ -6,16 +6,26 @@ import menuMuerte.*
 import menuGanador.*
 
 object pacman {
+
     
     var puntos = 0
     var bombas = 0
     var  property position = game.at(1, 1)
     var direccionActual = derecha
-
-    method ganar(){if(puntos == 10000){
+    var property pacmanFuerte = false
+    var property estaMuerto = false
+    method ganar(){if(puntos == 222000){
             game.addVisual(menuGanador)
             game.removeVisual(self)
         }
+    }
+    method hacerDebil(){
+        pacmanFuerte = false
+    }
+    method hacerFuerte(){
+        const tick = game.tick(6000, { self.hacerDebil() }, false)
+        pacmanFuerte = true
+        tick.start()
     }
     method text () {
         return  "=" + bombas
@@ -81,10 +91,20 @@ object pacman {
 			self.error("Ya hay una bomba!!!")
 		}
     }
+    method reiniciar() {
+        puntos = 0
+        bombas = 0
+        position = game.at(1, 1)
+        direccionActual = derecha
+        pacmanFuerte = false
+        estaMuerto = false
+    }
         method matar(){
         sonidos.sonidoMuerte()
+        estaMuerto = true
         game.removeVisual(self)
         bombas = 0
         game.addVisual(menu)
     }
+    method morir(){}
 }

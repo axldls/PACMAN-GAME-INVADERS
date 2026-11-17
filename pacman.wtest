@@ -1,6 +1,8 @@
 import pacman.*
 import wollok.game.*
 import direcciones.*
+import fantasmas.*
+import menu.*
 
 describe "Tests de pacman" {
 
@@ -34,6 +36,51 @@ describe "Tests de pacman" {
 
 		pacman.mover(derecha)
 		assert.equals(game.at(6,5), pacman.position())
+	}
+
+	test "reiniciar deja a pacman en el estado inicial" {
+		pacman.sumarPunto()
+		pacman.agarrarBomba()
+		pacman.pacmanFuerte(true)
+		pacman.estaMuerto(true)
+		pacman.position(game.at(7,7))
+
+		pacman.reiniciar()
+
+		assert.equals(game.at(1,1), pacman.position())
+		assert.equals("=0", pacman.text())
+		assert.equals(false, pacman.pacmanFuerte())
+		assert.equals(false, pacman.estaMuerto())
+	}
+
+	test "reiniciar desde la muerte reconstruye la partida" {
+		game.height(20)
+		game.width(20)
+		pacman.estaMuerto(true)
+
+		menu.reiniciar()
+
+		assert.equals(false, pacman.estaMuerto())
+		assert.equals(true, game.hasVisual(pacman))
+		assert.equals(true, game.hasVisual(menu.rojo()))
+	}
+
+	test "un fantasma mata a pacman cuando se mueve a su posicion" {
+		pacman.estaMuerto(false)
+		pacman.pacmanFuerte(false)
+		pacman.position(game.at(5,5))
+		const fantasma = new FantasmaRojo(
+			position = game.at(4,5),
+			imagen = "rojo.png",
+			fantasmaVivo = true
+		)
+		game.addVisual(pacman)
+		game.addVisual(fantasma)
+
+		fantasma.moverse()
+
+		assert.equals(true, pacman.estaMuerto())
+		assert.equals(false, game.hasVisual(pacman))
 	}
 
 

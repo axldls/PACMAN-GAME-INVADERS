@@ -1,5 +1,6 @@
 import wollok.game.*
 import pacman.*
+import direcciones.*
 import bombasRandom.*
 import bolitas.*
 import spawners.*
@@ -18,29 +19,33 @@ object menu {
         var property juegoIniciado = false
         var property fondoDeJuego = "menuInicio.png"
 
-        const property rojo = new FantasmaRojo (position = game.at(8, 12), imagen = "rojo.png", pacmanFuerte = false, fantasmaVivo = true)
-        const property rosa = new FantasmaRosa (position = game.at(6, 6), imagen = "rosa.png", pacmanFuerte = false, fantasmaVivo = true)
-        const property naranja = new FantasmaNaranja (position = game.at(6, 2), imagen = "naranja.png", pacmanFuerte = false, fantasmaVivo = true)
-        const property azul = new FantasmaCeleste (position = game.at(8, 8), imagen = "azul.png", pacmanFuerte = false, fantasmaVivo = true, fantasmaRojo = rojo)
+        const property rojo = new FantasmaRojo (position = game.at(8, 12), imagen = "rojo.png",  fantasmaVivo = true)
+        const property rosa = new FantasmaRosa (position = game.at(6, 6), imagen = "rosa.png", fantasmaVivo = true)
+        const property naranja = new FantasmaNaranja (position = game.at(6, 2), imagen = "naranja.png", fantasmaVivo = true)
+        const property azul = new FantasmaCeleste (position = game.at(8, 8), imagen = "azul.png",  fantasmaVivo = true, fantasmaRojo = rojo)
+
+        method configurarControles() {
+                keyboard.r().onPressDo({
+                        if (pacman.estaMuerto()) {
+                                self.reiniciar()
+                        }
+                })
+                keyboard.left().onPressDo({ pacman.mover(izquierda) })
+                keyboard.right().onPressDo({ pacman.mover(derecha) })
+                keyboard.up().onPressDo({ pacman.mover(arriba) })
+                keyboard.down().onPressDo({ pacman.mover(abajo) })
+                game.onCollideDo(pacman, { elemento => elemento.chocoConPacman() })
+        }
 
         method iniciar(){
-        if (not game.hasVisual(pacman)) {
+        
         juegoIniciado = true
         const fantasmas = [rojo, rosa, naranja, azul]
         fantasmas.forEach({ fantasma => fantasma.otrosFantasmas(fantasmas) })
 
-        // BOLITAS
 
-        const bolita1 = new Bolitas(position = game.at(3, 8))
-        const bolita2 = new Bolitas(position = game.at(6, 2))
-        const bolita3 = new Bolitas(position = game.at(2, 2))
-        const bolita4 = new Bolitas(position = game.at(7, 6))
-        const bolita5 = new Bolitas(position = game.at(8, 6))
-        const bolita6 = new Bolitas(position = game.at(4, 8))
-        const bolita7 = new Bolitas(position = game.at(8, 4))
-        const bolita8 = new Bolitas(position = game.at(9, 10))
-        const bolita9 = new Bolitas(position = game.at(13, 6))
-        const bolita10 = new Bolitas(position = game.at(12, 12))
+
+
 
 
         game.onTick(500, rojo, { rojo.moverse() })
@@ -58,29 +63,34 @@ object menu {
 
 
 // BOMBAS AZULES
-        game.schedule(5000, { game.addVisual(new BombaRandom (position = game.at(2, 10)))})
+        game.schedule(5000, { game.addVisual(new BombaRandom (position = game.at(2, 5)))})
         game.schedule(5000,{ game.addVisual(new BombaRandom (position = game.at(12, 10)))})
-        game.schedule(5000,{ game.addVisual(new BombaRandom (position = game.at(10, 10)))})
+        game.schedule(5000,{ game.addVisual(new BombaRandom (position = game.at(8, 4)))})
 
 // SPAWNER DISPARADORES
-        //spawner.spawnearCant_Invasores(2)
+        spawner.spawnearCant_Invasores(2)
 
-// COLISIONES 
         game.addVisual(rojo)
         game.addVisual(rosa)
         game.addVisual(naranja)
         game.addVisual(azul)
-        game.addVisual(pacman)
-        game.addVisual(bolita1)
-        game.addVisual(bolita2)
-        game.addVisual(bolita3)
-        game.addVisual(bolita4)
-        game.addVisual(bolita5)
-        game.addVisual(bolita6)
-        game.addVisual(bolita7)
-        game.addVisual(bolita8)
-        game.addVisual(bolita9)
-        game.addVisual(bolita10)
-        }
+
+
+
+        
 }
+
+        method reiniciar() {
+        game.clear()
+        pacman.reiniciar()
+        rojo.position(game.at(8, 12))
+        rosa.position(game.at(6, 6))
+        naranja.position(game.at(6, 2))
+        azul.position(game.at(8, 8))
+        [rojo, rosa, naranja, azul].forEach({ fantasma =>
+                fantasma.fantasmaVivo(true)
+        })
+        self.iniciar()
+        self.configurarControles()
+        }
 }

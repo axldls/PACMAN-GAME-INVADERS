@@ -14,8 +14,10 @@ class Bomba {
 
     method chocoConPacman() {}
 
-    method chocoConFantasma() {
+    method chocoCon(elemento) {
         game.removeVisual(self)
+        elemento.morir()
+
     }
     
 }

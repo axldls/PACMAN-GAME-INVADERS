@@ -4,7 +4,6 @@ import direcciones.*
 
 class Fantasma {
     var property imagen
-    var property pacmanFuerte
     var property fantasmaVivo
     var property position
     var property otrosFantasmas = []
@@ -13,12 +12,13 @@ class Fantasma {
         fantasmaVivo = false
         game.removeVisual(self)
     }
-
     method chocoConPacman() {
-        if (pacmanFuerte) {
-            self.morir()
-        } else {
-            pacman.matar()
+        if (not pacman.estaMuerto()) {
+            if (pacman.pacmanFuerte()) {
+                self.morir()
+            } else {
+                pacman.matar()
+            }
         }
     }
 
@@ -60,7 +60,6 @@ class Fantasma {
             if (not seMovio and self.puedeMover(direccion)) {
                 position = direccion.siguiente(position)
                 seMovio = true
-                self.verificarBomba()
             }
         })
     }
@@ -69,14 +68,6 @@ class Fantasma {
         return otrosFantasmas.any({ fantasma =>
             fantasma != self and fantasma.fantasmaVivo() and fantasma.position() == posicion
         })
-    }
-
-    method verificarBomba() {
-        const bombas = game.getObjectsIn(position).filter({ objeto => objeto.esBomba() })
-        if (not bombas.isEmpty()) {
-            bombas.forEach({ bomba => bomba.chocoConFantasma() })
-            self.morir()
-        }
     }
 
     method puedeMover(direccion) {
